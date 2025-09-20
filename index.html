@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LEAP — Learn English Advanced Program</title>
+  <meta name="description" content="LEAP helps motivated learners reach advanced, confident English with small classes, expert coaches, and real‑world practice."/>
+  <meta name="theme-color" content="#06b6d4"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f172a;          /* slate-900 */
+      --panel:#ffffff;       /* white cards */
+      --ink:#0b1229;         /* dark text on light */
+      --text:#e6f3ff;        /* light text */
+      --muted:#c8d2e5;       /* slate-200 */
+      --brand:#06b6d4;       /* cyan */
+      --brand-2:#22c55e;     /* green */
+      --accent:#f59e0b;      /* amber */
+      --violet:#8b5cf6;      /* violet */
+      --radius:18px;
+      --shadow:0 18px 50px rgba(0,0,0,.45);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.6;color:var(--text);background:radial-gradient(90% 140% at 15% -10%, rgba(6,182,212,.25), transparent 60%), radial-gradient(90% 140% at 115% 10%, rgba(139,92,246,.28), transparent 60%), linear-gradient(180deg,#0b1229 0%, #111b3a 60%, #0f172a 100%)}
+
+    /* Canvas with animated study doodles */
+    .bg-scene{position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none}
+    .doodle{position:absolute; opacity:.25; filter:drop-shadow(0 10px 20px rgba(0,0,0,.35))}
+    .float{
+      animation: float 9s ease-in-out infinite;
+    }
+    .float.delay{animation-delay:2.2s}
+    .float.slow{animation-duration:13s}
+    @keyframes float{ 0%,100%{ transform:translateY(-6px) rotate(-1.5deg)} 50%{ transform:translateY(6px) rotate(1.5deg)} }
+
+    /* Layout */
+    .container{width:min(1100px,92vw); margin-inline:auto}
+    header{position:sticky; top:0; z-index:50; backdrop-filter:saturate(1.2) blur(8px); background:rgba(2,6,23,.45); border-bottom:1px solid rgba(255,255,255,.08)}
+    .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; align-items:center; gap:12px}
+    .logo{width:40px; height:40px; border-radius:12px; background:conic-gradient(from 210deg, var(--brand), var(--accent), var(--violet), var(--brand)); box-shadow:inset 0 0 40px rgba(255,255,255,.35)}
+    .brand b{letter-spacing:.2px}
+    nav ul{display:flex; gap:18px; list-style:none; margin:0; padding:0}
+    .btn{display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.12); color:var(--text); background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03)); cursor:pointer}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.primary{border:none; background:linear-gradient(135deg, var(--brand), var(--accent)); color:#07221f; font-weight:800; box-shadow:var(--shadow)}
+
+    /* Hero */
+    .hero{display:grid; grid-template-columns: 1.1fr .9fr; gap:40px; align-items:center; padding:58px 0 28px}
+    .eyebrow{display:inline-flex; gap:8px; align-items:center; font-weight:600; color:#a5f3fc}
+    .hero h1{margin:6px 0 8px; font-size:clamp(34px,4.6vw,56px); line-height:1.05}
+    .lead{color:var(--muted); font-size:18px}
+    .hero-card{border:1px solid rgba(255,255,255,.10); border-radius:var(--radius); padding:22px; background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04)); box-shadow:0 10px 30px rgba(0,0,0,.35)}
+
+    /* Sections */
+    section{padding:54px 0}
+    h2{font-size:28px; margin:0 0 10px; color:#8ff0ff}
+    .sub{color:#c9e7ff; margin:0 0 20px}
+    .grid{display:grid; gap:18px}
+    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .card{border:1px solid rgba(255,255,255,.08); background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06)); border-radius:18px; padding:18px; box-shadow:0 14px 40px rgba(0,0,0,.35)}
+    .card h3{margin:6px 0 6px; font-size:18px; color:#ffe8b3}
+    .badge{font-size:12px; padding:6px 8px; border-radius:999px; background:rgba(6,182,212,.18); color:#67e8f9; border:1px solid rgba(6,182,212,.35)}
+
+    /* Pricing */
+    .pricing{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+    .price{font-size:34px; font-weight:800}
+
+    /* Footer */
+    footer{border-top:1px solid rgba(255,255,255,.10); padding:34px 0 60px; color:#bccbe4}
+
+    /* Responsive */
+    @media (max-width: 900px){
+      nav ul{display:none}
+      .hero{grid-template-columns:1fr}
+      .grid.cols-3, .pricing{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated, cute background doodles -->
+  <div class="bg-scene" aria-hidden="true">
+    <!-- notebook -->
+    <svg class="doodle float" style="left:6%; top:14%; width:140px" viewBox="0 0 160 120">
+      <rect x="22" y="16" rx="12" ry="12" width="116" height="88" fill="rgba(255,255,255,.9)"/>
+      <g stroke="rgba(6,182,212,.7)" stroke-width="2" fill="none">
+        <line x1="40" y1="40" x2="120" y2="40"/>
+        <line x1="40" y1="60" x2="120" y2="60"/>
+        <line x1="40" y1="80" x2="100" y2="80"/>
+      </g>
+      <g stroke="rgba(139,92,246,.5)">
+        <circle cx="30" cy="40" r="4"/>
+        <circle cx="30" cy="60" r="4"/>
+        <circle cx="30" cy="80" r="4"/>
+      </g>
+    </svg>
+    <!-- pencil -->
+    <svg class="doodle float delay" style="left:84%; top:18%; width:180px" viewBox="0 0 220 60">
+      <rect x="26" y="22" width="150" height="14" rx="7" fill="rgba(245,158,11,.85)"/>
+      <polygon points="176,29 212,9 212,49" fill="rgba(6,182,212,.85)"/>
+      <rect x="16" y="22" width="12" height="14" rx="7" fill="rgba(236,72,153,.7)"/>
+    </svg>
+    <!-- speech bubble -->
+    <svg class="doodle float slow" style="left:12%; top:70%; width:160px" viewBox="0 0 200 140">
+      <rect x="22" y="24" width="150" height="90" rx="18" fill="rgba(255,255,255,.85)"/>
+      <polygon points="70,114 92,96 116,114" fill="rgba(255,255,255,.85)"/>
+      <g stroke="rgba(6,182,212,.65)" stroke-width="2">
+        <line x1="38" y1="50" x2="160" y2="50"/>
+        <line x1="38" y1="70" x2="130" y2="70"/>
+      </g>
+    </svg>
+    <!-- paper plane -->
+    <svg class="doodle float" style="left:70%; top:82%; width:160px" viewBox="0 0 220 120">
+      <polygon points="10,10 210,60 120,70 100,110" fill="rgba(255,255,255,.9)"/>
+      <polyline points="10,10 120,70 100,110" fill="none" stroke="rgba(6,182,212,.6)" stroke-width="2"/>
+    </svg>
+  </div>
+
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="LEAP home">
+        <div class="logo" role="img" aria-label="LEAP logo"></div>
+        <div>
+          <b>LEAP</b>
+          <div style="font-size:12px;color:#a6b6d8;margin-top:-2px">Learn English Advanced Program</div>
+        </div>
+      </a>
+      <nav>
+        <ul>
+          <li><a class="btn" href="#courses">Courses</a></li>
+          <li><a class="btn" href="#pricing">Pricing</a></li>
+          <li><a class="btn" href="#about">About</a></li>
+          <li><a class="btn primary" href="#contact">Enroll</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="container">
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <span class="eyebrow">🌐 Advanced focus • 🗣️ Conversation • 🎯 Test prep</span>
+        <h1>English that opens college, careers, and community.</h1>
+        <p class="lead">Small classes. Expert teachers. Real speaking time. Study online or in person — mornings, evenings, or weekends.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px">
+          <a class="btn primary" href="#pricing">Start learning</a>
+          <a class="btn" href="#courses">Browse courses</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          <div class="card"><div class="badge">Live</div><h3>Small‑group classes</h3><p class="sub">Max 8 learners for real speaking time.</p></div>
+          <div class="card"><div class="badge" style="background:rgba(34,197,94,.18); color:#bff7d1; border-color:rgba(34,197,94,.35)">Flexible</div><h3>Online & in person</h3><p class="sub">Weeknights or Saturday intensives.</p></div>
+          <div class="card"><div class="badge" style="background:rgba(245,158,11,.20); color:#ffe8b3; border-color:rgba(245,158,11,.35)">Personal</div><h3>1‑to‑1 tutoring</h3><p class="sub">Custom plans for tests and work.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COURSES -->
+    <section id="courses">
+      <h2>Popular courses</h2>
+      <p class="sub">All courses include conversation labs, writing feedback, and a friendly community.</p>
+      <div class="grid cols-3">
+        <article class="card">
+          <h3>Core English (Upper‑Intermediate → Advanced)</h3>
+          <p>High‑level grammar, vocabulary range, listening, and speaking — leveled tracks with progress checks every 4 weeks.</p>
+        </article>
+        <article class="card">
+          <h3>Conversation & Pronunciation</h3>
+          <p>Accent clarity, rhythm, and confidence. Real‑life topics and role‑plays every class.</p>
+        </article>
+        <article class="card">
+          <h3>IELTS / TOEFL Test Prep</h3>
+          <p>Targeted strategies, practice tests, and expert feedback to boost scores quickly.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <h2>About LEAP</h2>
+      <p class="sub">Founded by <b>Said Keshtmand</b>, who lived in Germany before settling in the United States, LEAP blends global perspective with people‑first teaching. Said has traveled widely and learned from many cultures — experience that shapes our warm, practical approach to advanced English.</p>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing">
+      <h2>Simple pricing</h2>
+      <div class="pricing">
+        <div class="card">
+          <h3>Starter</h3>
+          <p class="sub">2 classes / week</p>
+          <div class="price">$89<span style="font-size:12px;color:#c9e7ff"> / month</span></div>
+          <a class="btn primary" href="https://buy.stripe.com/test_5kQ28s2p6cWM0hq7R8fEk00" target="_blank" rel="noopener">Enroll — Pay with Stripe</a>
+          <p class="sub" style="margin-top:6px">Card, Apple Pay, and Google Pay supported.</p>
+        </div>
+        <div class="card">
+          <h3>Plus</h3>
+          <p class="sub">3 classes / week</p>
+          <div class="price">$129<span style="font-size:12px;color:#c9e7ff"> / month</span></div>
+          <button class="btn" disabled title="Coming soon">Coming soon</button>
+        </div>
+        <div class="card">
+          <h3>1‑to‑1 Tutoring</h3>
+          <p class="sub">Personalized plan</p>
+          <div class="price">$35<span style="font-size:12px;color:#c9e7ff"> / 45‑min</span></div>
+          <button class="btn" disabled title="Coming soon">Coming soon</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <h2>Enroll or ask a question</h2>
+      <form class="card" id="enrollForm">
+        <div class="grid" style="grid-template-columns:repeat(2,1fr); gap:12px">
+          <label>Full name<input name="name" required placeholder="Your name"/></label>
+          <label>Email<input type="email" name="email" required placeholder="you@email.com"/></label>
+          <label style="grid-column:1/-1">Message<textarea name="msg" rows="4" placeholder="What are your goals?"></textarea></label>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px">
+          <button class="btn primary" type="submit">Send</button>
+          <span id="formNote" class="sub" aria-live="polite"></span>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap">
+      <div>© <span id="year"></span> LEAP — Learn English Advanced Program</div>
+      <div style="display:flex;gap:14px">
+        <a href="#top">Back to top ↑</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // simple floating parallax on scroll (kept lightweight)
+    (function(){
+      const els = document.querySelectorAll('.doodle');
+      let ticking=false;
+      function step(){
+        const p = scrollY / Math.max(1, document.body.scrollHeight - innerHeight);
+        els.forEach((el,i)=>{
+          const x = Math.sin(p*6.28 + i)*8; // -8..8
+          const y = Math.cos(p*4 + i)*6; // -6..6
+          el.style.transform = `translate(${x}px, ${y}px)`;
+        });
+        ticking=false;
+      }
+      addEventListener('scroll', ()=>{ if(!ticking){ requestAnimationFrame(step); ticking=true; } }, {passive:true});
+      addEventListener('load', step, {once:true});
+    })();
+
+    // Fake form handler
+    (function(){
+      const f = document.getElementById('enrollForm');
+      const note = document.getElementById('formNote');
+      f?.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(f).entries());
+        note.textContent = 'Thanks, ' + (data.name||'friend') + '! We\'ll get back to you soon.';
+        note.style.color = '#86efac';
+        f.reset();
+      });
+      document.getElementById('year').textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
